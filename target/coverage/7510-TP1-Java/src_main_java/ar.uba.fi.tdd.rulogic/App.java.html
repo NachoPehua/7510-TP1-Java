@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>App.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">7510-TP1-Java (7/11/2017 05:10:59 PM)</a> &gt; <a href="../../index.html" class="el_group">7510-TP1-Java</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">ar.uba.fi.tdd.rulogic</a> &gt; <span class="el_source">App.java</span></div><h1>App.java</h1><pre class="source lang-java linenums">package ar.uba.fi.tdd.rulogic;
+
+import ar.uba.fi.tdd.rulogic.model.InvalidDBLineException;
+import ar.uba.fi.tdd.rulogic.model.InvalidQException;
+import ar.uba.fi.tdd.rulogic.model.KnowledgeBase;
+import ar.uba.fi.tdd.rulogic.model.ParserKB;
+
+import java.io.File;
+import java.util.Scanner;
+
+<span class="nc" id="L11">public class App</span>
+{
+	public static void main(String[] args) {
+<span class="nc" id="L14">	    App app = new App();</span>
+
+<span class="nc" id="L16">	    ParserKB parserkb = new ParserKB();</span>
+<span class="nc" id="L17">        KnowledgeBase knowledgeBase = null;</span>
+        try {
+<span class="nc" id="L19">        	 knowledgeBase = parserkb.create(new File(&quot;&quot;).getAbsolutePath().concat(&quot;\\src\\main\\resources\\rules.db&quot;));            </span>
+<span class="nc" id="L20">        } catch (InvalidDBLineException e) {</span>
+<span class="nc" id="L21">            System.out.println(&quot;Database Invalida&quot;);</span>
+<span class="nc" id="L22">            System.exit(1);</span>
+        }
+
+<span class="nc" id="L25">        app.answer(knowledgeBase);</span>
+<span class="nc" id="L26">    }</span>
+
+    private void answer(KnowledgeBase knowledgeBase) {
+<span class="nc" id="L29">	    String EXIT_WORD = &quot;q&quot;;</span>
+<span class="nc" id="L30">        System.out.println(&quot;Ingrese sus consultas(Aprete 'q' para salir)&quot;);</span>
+<span class="nc" id="L31">        Scanner scan = new Scanner(System.in);</span>
+        String query;
+<span class="nc" id="L33">	    while (true) {</span>
+<span class="nc" id="L34">	        query = scan.nextLine();</span>
+<span class="nc bnc" id="L35" title="All 2 branches missed.">	        if (EXIT_WORD.equals(query)) {</span>
+<span class="nc" id="L36">	        	scan.close();</span>
+<span class="nc" id="L37">	        	break;</span>
+	        }
+<span class="nc bnc" id="L39" title="All 2 branches missed.">	        try {System.out.println((knowledgeBase.answer(query) ? &quot;Si&quot; : &quot;No&quot;));</span>
+<span class="nc" id="L40">	        }</span>
+<span class="nc" id="L41">            catch (InvalidQException e) {</span>
+<span class="nc" id="L42">                System.out.println(e.getMessage());</span>
+            }
+        }
+<span class="nc" id="L45">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>7510-TP1-Java (7/11/2017 05:10:59 PM)</div></body></html>

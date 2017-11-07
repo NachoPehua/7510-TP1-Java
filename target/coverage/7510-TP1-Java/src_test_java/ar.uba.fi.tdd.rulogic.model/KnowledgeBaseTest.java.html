@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>KnowledgeBaseTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">7510-TP1-Java (7/11/2017 05:10:59 PM)</a> &gt; <a href="../../index.html" class="el_group">7510-TP1-Java</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">ar.uba.fi.tdd.rulogic.model</a> &gt; <span class="el_source">KnowledgeBaseTest.java</span></div><h1>KnowledgeBaseTest.java</h1><pre class="source lang-java linenums">package ar.uba.fi.tdd.rulogic.model;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+<span class="fc" id="L10">public class KnowledgeBaseTest {</span>
+
+	 @Test
+	 public void testAddFacts() throws InvalidDBLineException {
+<span class="fc" id="L14">		KnowledgeBase kBase = new KnowledgeBase();</span>
+<span class="fc" id="L15">	    List&lt;String&gt; args = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L16">	    args.add(&quot;river&quot;);</span>
+<span class="fc" id="L17">	    Fact fact = new Fact(&quot;campeon&quot;, args);</span>
+<span class="fc" id="L18">	    Fact fact2 = new Fact(&quot;bicampeon&quot;, args);</span>
+<span class="fc" id="L19">		kBase.addFact(fact);    </span>
+<span class="fc" id="L20">		Assert.assertTrue(kBase.getFacts().contains(fact));</span>
+<span class="fc" id="L21">		Assert.assertFalse(kBase.getFacts().contains(fact2));</span>
+<span class="fc" id="L22">		kBase.addFact(fact2);    </span>
+<span class="fc" id="L23">		Assert.assertTrue(kBase.getFacts().contains(fact2));</span>
+<span class="fc" id="L24">	 }</span>
+	 
+	 @Test
+	 public void testAddRules() throws InvalidDBLineException {
+<span class="fc" id="L28">		KnowledgeBase kBase = new KnowledgeBase();</span>
+<span class="fc" id="L29">		Rule rule = new Rule(&quot;tio(X,Y,Z):-varon(X),hermano(X,Z),padre(Z,Y)&quot;);</span>
+<span class="fc" id="L30">		Rule rule2 = new Rule(&quot;tia(X,Y,Z):-mujer(X),hermano(X,Z),padre(Z,Y)&quot;);</span>
+<span class="fc" id="L31">		kBase.addRule(rule);    </span>
+<span class="fc" id="L32">		Assert.assertTrue(kBase.getRules().contains(rule));</span>
+<span class="fc" id="L33">		Assert.assertFalse(kBase.getRules().contains(rule2));</span>
+<span class="fc" id="L34">		kBase.addRule(rule2);    </span>
+<span class="fc" id="L35">		Assert.assertTrue(kBase.getRules().contains(rule2));</span>
+<span class="fc" id="L36">	 }</span>
+	 
+    @Test
+    public void testInvalidQueriesInDB() throws InvalidDBLineException {
+<span class="fc" id="L40">    	ParserKB parserKb = new ParserKB();</span>
+<span class="fc" id="L41">        KnowledgeBase kBase = parserKb.create(new File(&quot;&quot;).getAbsolutePath().concat(&quot;\\src\\main\\resources\\rules.db&quot;));</span>
+
+        try {
+<span class="nc" id="L44">        	kBase.answer(&quot;&quot;);</span>
+<span class="nc" id="L45">            Assert.assertTrue(false);</span>
+<span class="pc" id="L46">        } catch (InvalidQException e) {</span>
+        }
+        try {
+<span class="nc" id="L49">        	kBase.answer(&quot;().&quot;);</span>
+<span class="nc" id="L50">            Assert.assertTrue(false);</span>
+<span class="pc" id="L51">        } catch (InvalidQException e) {</span>
+        }
+        try {
+<span class="nc" id="L54">        	kBase.answer(&quot;mujer(a,)).&quot;);</span>
+<span class="nc" id="L55">            Assert.assertTrue(false);</span>
+<span class="pc" id="L56">        } catch (InvalidQException e) {</span>
+        }
+        try {
+<span class="nc" id="L59">        	kBase.answer(&quot;12312&quot;);</span>
+<span class="nc" id="L60">            Assert.assertTrue(false);</span>
+<span class="pc" id="L61">        } catch (InvalidQException e) {</span>
+        }
+        try {
+<span class="nc" id="L64">        	kBase.answer(&quot;).&quot;);</span>
+<span class="nc" id="L65">            Assert.assertTrue(false);</span>
+<span class="pc" id="L66">        } catch (InvalidQException e) {</span>
+        }
+        try {
+<span class="nc" id="L69">        	kBase.answer(&quot;  &quot;);</span>
+<span class="nc" id="L70">            Assert.assertTrue(false);</span>
+<span class="pc" id="L71">        } catch (InvalidQException e) {</span>
+        }
+
+        try {
+<span class="nc" id="L75">        	kBase.answer(&quot;madre&quot;);</span>
+<span class="nc" id="L76">            Assert.assertTrue(false);</span>
+<span class="pc" id="L77">        } catch (InvalidQException e) {</span>
+        }
+<span class="fc" id="L79">    }</span>
+
+    @Test
+    public void testValidRuleQueriesDB() throws InvalidDBLineException, InvalidQException {
+<span class="fc" id="L83">    	ParserKB parserKb = new ParserKB();</span>
+<span class="fc" id="L84">        KnowledgeBase kBase = parserKb.create(new File(&quot;&quot;).getAbsolutePath().concat(&quot;\\src\\main\\resources\\rules.db&quot;));</span>
+ 
+<span class="fc" id="L86">        Assert.assertTrue(kBase.answer(&quot;varon(hector).&quot;));</span>
+<span class="fc" id="L87">        Assert.assertTrue(kBase.answer(&quot;mujer(cecilia).&quot;));</span>
+<span class="fc" id="L88">        Assert.assertTrue(kBase.answer(&quot;hermano(roberto, nicolas).&quot;));         </span>
+<span class="fc" id="L89">        Assert.assertTrue(kBase.answer(&quot;hijo(pepe,juan).&quot;));</span>
+<span class="fc" id="L90">        Assert.assertTrue(kBase.answer(&quot;hijo(alejandro,roberto).&quot;));</span>
+<span class="fc" id="L91">        Assert.assertTrue(kBase.answer(&quot;hija(cecilia,roberto).&quot;));</span>
+<span class="fc" id="L92">        Assert.assertTrue(kBase.answer(&quot;tio(nicolas,alejandro,roberto).&quot;));</span>
+<span class="fc" id="L93">        Assert.assertTrue(kBase.answer(&quot;tio(nicolas,cecilia,roberto).&quot;));</span>
+
+<span class="fc" id="L95">        Assert.assertFalse(kBase.answer(&quot;mujer(hector).&quot;));</span>
+<span class="fc" id="L96">        Assert.assertFalse(kBase.answer(&quot;varon(beatriz).&quot;));</span>
+<span class="fc" id="L97">        Assert.assertFalse(kBase.answer(&quot;hija(pepa,juan).&quot;));</span>
+<span class="fc" id="L98">        Assert.assertFalse(kBase.answer(&quot;tio(pepa,juan,carlos).&quot;));</span>
+<span class="fc" id="L99">        Assert.assertFalse(kBase.answer(&quot;hijo(juan,pepa).&quot;));</span>
+
+<span class="fc" id="L101">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>7510-TP1-Java (7/11/2017 05:10:59 PM)</div></body></html>

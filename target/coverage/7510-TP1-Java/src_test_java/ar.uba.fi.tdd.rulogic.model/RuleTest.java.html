@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>RuleTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">7510-TP1-Java (7/11/2017 05:10:59 PM)</a> &gt; <a href="../../index.html" class="el_group">7510-TP1-Java</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">ar.uba.fi.tdd.rulogic.model</a> &gt; <span class="el_source">RuleTest.java</span></div><h1>RuleTest.java</h1><pre class="source lang-java linenums">package ar.uba.fi.tdd.rulogic.model;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+<span class="fc" id="L9">public class RuleTest {</span>
+
+    @Test
+    public void testCreateRuleOneFact() {
+<span class="fc" id="L13">        Rule rule = new Rule(&quot;rule(X):-fact(X)&quot;);</span>
+<span class="fc" id="L14">        List&lt;Fact&gt; facts = rule.getFacts();</span>
+
+<span class="fc" id="L16">        Assert.assertTrue(rule.getNombre().equals(&quot;rule&quot;));</span>
+<span class="pc bpc" id="L17" title="1 of 2 branches missed.">        Assert.assertTrue(rule.getArgs() == 1);</span>
+<span class="fc" id="L18">        Assert.assertTrue(facts.get(0).getName().equals(&quot;fact&quot;));</span>
+<span class="fc" id="L19">        Assert.assertTrue(facts.get(0).getArgs().get(0).equals(&quot;0&quot;));</span>
+<span class="fc" id="L20">    }</span>
+
+    @Test
+    public void testCreateRuleThreeFacts() {
+<span class="fc" id="L24">        Rule rule = new Rule(&quot;tio(X,Y,Z):-varon(X),hermano(X,Z),padre(Z,Y)&quot;);</span>
+
+<span class="fc" id="L26">        List&lt;Fact&gt; facts = rule.getFacts();</span>
+
+<span class="fc" id="L28">        Assert.assertTrue(rule.getNombre().equals(&quot;tio&quot;));</span>
+<span class="fc" id="L29">        Assert.assertTrue(facts.get(0).getName().equals(&quot;varon&quot;));</span>
+<span class="fc" id="L30">        Assert.assertTrue(facts.get(0).getArgs().get(0).equals(&quot;0&quot;));</span>
+<span class="fc" id="L31">        Assert.assertTrue(facts.get(1).getName().equals(&quot;hermano&quot;));</span>
+<span class="fc" id="L32">        Assert.assertTrue(facts.get(1).getArgs().get(0).equals(&quot;0&quot;));</span>
+<span class="fc" id="L33">        Assert.assertTrue(facts.get(1).getArgs().get(1).equals(&quot;2&quot;));</span>
+        
+<span class="pc bpc" id="L35" title="1 of 2 branches missed.">        Assert.assertFalse(rule.getArgs() == 2);</span>
+<span class="pc bpc" id="L36" title="1 of 2 branches missed.">        Assert.assertTrue(rule.getArgs() == 3);</span>
+<span class="fc" id="L37">    }</span>
+
+    @Test
+    public void testRuleFacts() {
+<span class="fc" id="L41">        Rule rule = new Rule(&quot;tio(X,Y,Z):-varon(X),hermano(X,Z),padre(Z,Y)&quot;);</span>
+<span class="fc" id="L42">        List&lt;String&gt; parameters = new ArrayList&lt;String&gt;();</span>
+        
+<span class="fc" id="L44">        parameters.add(&quot;agustin&quot;);</span>
+<span class="fc" id="L45">        parameters.add(&quot;ignacio&quot;);</span>
+<span class="fc" id="L46">        parameters.add(&quot;sergio&quot;);</span>
+        
+<span class="fc" id="L48">        List&lt;Fact&gt; facts = rule.findFacts(parameters);</span>
+
+<span class="fc" id="L50">        Assert.assertTrue(rule.getNombre().equals(&quot;tio&quot;));</span>
+        
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">        Assert.assertFalse(rule.getArgs() == 2);</span>
+<span class="pc bpc" id="L53" title="1 of 2 branches missed.">        Assert.assertTrue(rule.getArgs() == 3);</span>
+        
+<span class="fc" id="L55">        Assert.assertFalse(facts.get(0).getName().equals(&quot;hermano&quot;));</span>
+<span class="fc" id="L56">        Assert.assertFalse(facts.get(0).getName().equals(&quot;mujer&quot;));</span>
+<span class="fc" id="L57">        Assert.assertTrue(facts.get(0).getName().equals(&quot;varon&quot;));</span>
+<span class="fc" id="L58">        Assert.assertTrue(facts.get(0).getArgs().get(0).equals(&quot;agustin&quot;));</span>
+<span class="fc" id="L59">        Assert.assertTrue(facts.get(1).getName().equals(&quot;hermano&quot;));</span>
+<span class="fc" id="L60">        Assert.assertTrue(facts.get(1).getArgs().get(0).equals(&quot;agustin&quot;));</span>
+<span class="fc" id="L61">        Assert.assertTrue(facts.get(1).getArgs().get(1).equals(&quot;sergio&quot;));</span>
+<span class="fc" id="L62">        Assert.assertTrue(facts.get(2).getName().equals(&quot;padre&quot;));</span>
+<span class="fc" id="L63">        Assert.assertTrue(facts.get(2).getArgs().get(0).equals(&quot;sergio&quot;));</span>
+<span class="fc" id="L64">        Assert.assertTrue(facts.get(2).getArgs().get(1).equals(&quot;ignacio&quot;));      </span>
+
+<span class="fc" id="L66">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>7510-TP1-Java (7/11/2017 05:10:59 PM)</div></body></html>

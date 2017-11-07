@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>FactTest.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">7510-TP1-Java (7/11/2017 05:10:59 PM)</a> &gt; <a href="../../index.html" class="el_group">7510-TP1-Java</a> &gt; <a href="../index.html" class="el_bundle">src/test/java</a> &gt; <a href="index.source.html" class="el_package">ar.uba.fi.tdd.rulogic.model</a> &gt; <span class="el_source">FactTest.java</span></div><h1>FactTest.java</h1><pre class="source lang-java linenums">package ar.uba.fi.tdd.rulogic.model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+<span class="fc" id="L9">public class FactTest {</span>
+
+    @Test
+    public void testCreateFact() {
+    	
+<span class="fc" id="L14">        Fact fact = new Fact(&quot;campeon(river)&quot;);</span>
+        
+<span class="fc" id="L16">        Assert.assertFalse(fact.getName().equals(&quot;subcampeon&quot;));</span>
+<span class="fc" id="L17">        Assert.assertTrue(fact.getName().equals(&quot;campeon&quot;));</span>
+        
+<span class="fc" id="L19">        Assert.assertFalse(fact.getArgs().get(0).equals(&quot;boca&quot;));</span>
+<span class="fc" id="L20">        Assert.assertTrue(fact.getArgs().get(0).equals(&quot;river&quot;));</span>
+
+<span class="fc" id="L22">    }</span>
+
+    @Test
+    public void testCreateFactTwoArgs() {
+<span class="fc" id="L26">        Fact fact = new Fact(&quot;tecnico(gallardo,river)&quot;);</span>
+        
+<span class="fc" id="L28">        Assert.assertTrue(fact.getName().equals(&quot;tecnico&quot;));</span>
+        
+<span class="fc" id="L30">        Assert.assertFalse(fact.getArgs().get(0).equals(&quot;river&quot;));</span>
+<span class="fc" id="L31">        Assert.assertTrue(fact.getArgs().get(0).equals(&quot;gallardo&quot;));</span>
+        
+<span class="fc" id="L33">        Assert.assertFalse(fact.getArgs().get(1).equals(&quot;boca&quot;));</span>
+<span class="fc" id="L34">        Assert.assertTrue(fact.getArgs().get(1).equals(&quot;river&quot;));</span>
+
+<span class="fc" id="L36">    }</span>
+
+    @Test
+    public void testCreateFact2() {
+<span class="fc" id="L40">    	List&lt;String&gt; args = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L41">    	args.add(&quot;river&quot;);</span>
+<span class="fc" id="L42">        Fact fact = new Fact(&quot;campeon&quot;, args);</span>
+        
+<span class="fc" id="L44">        Assert.assertFalse(fact.getName().equals(&quot;subcampeon&quot;));</span>
+<span class="fc" id="L45">        Assert.assertTrue(fact.getName().equals(&quot;campeon&quot;));</span>
+        
+<span class="fc" id="L47">        Assert.assertFalse(fact.getArgs().get(0).equals(&quot;boca&quot;));</span>
+<span class="fc" id="L48">        Assert.assertTrue(fact.getArgs().get(0).equals(&quot;river&quot;));</span>
+
+<span class="fc" id="L50">    }</span>
+    
+    @Test
+    public void testEqualsFacts() {
+<span class="fc" id="L54">    	List&lt;String&gt; args = new ArrayList&lt;String&gt;();</span>
+<span class="fc" id="L55">    	args.add(&quot;river&quot;);</span>
+<span class="fc" id="L56">        Fact fact = new Fact(&quot;campeon&quot;, args);</span>
+<span class="fc" id="L57">        Fact fact2 = new Fact(&quot;campeon&quot;, args);</span>
+<span class="fc" id="L58">        Fact fact3 = new Fact(&quot;subcampeon&quot;, args);</span>
+
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        Assert.assertTrue(fact.getName().equals(&quot;campeon&quot;)==fact2.getName().equals(&quot;campeon&quot;));</span>
+
+<span class="fc" id="L62">        Assert.assertTrue(fact.equals(fact2));</span>
+<span class="fc" id="L63">        Assert.assertFalse(fact.equals(fact3));</span>
+<span class="fc" id="L64">        Assert.assertFalse(fact3.equals(fact2));</span>
+<span class="fc" id="L65">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>7510-TP1-Java (7/11/2017 05:10:59 PM)</div></body></html>

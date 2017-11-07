@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="es"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../../../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../../../jacoco-resources/report.gif" type="image/gif"/><title>ParserKB.java</title><link rel="stylesheet" href="../../../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../../../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../../../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../../../index.html" class="el_report">7510-TP1-Java (7/11/2017 05:10:59 PM)</a> &gt; <a href="../../index.html" class="el_group">7510-TP1-Java</a> &gt; <a href="../index.html" class="el_bundle">src/main/java</a> &gt; <a href="index.source.html" class="el_package">ar.uba.fi.tdd.rulogic.model</a> &gt; <span class="el_source">ParserKB.java</span></div><h1>ParserKB.java</h1><pre class="source lang-java linenums">package ar.uba.fi.tdd.rulogic.model;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
+<span class="fc" id="L9">public class ParserKB {</span>
+
+    public KnowledgeBase create(String dbPath) throws InvalidDBLineException {
+<span class="fc" id="L12">        String db = getDbString(dbPath);</span>
+<span class="fc" id="L13">        List&lt;String&gt; dbList =  Arrays.asList(db.split(&quot;\n&quot;));</span>
+<span class="fc" id="L14">        validateDB(dbList);</span>
+
+<span class="fc" id="L16">        return getDatabase(dbList);</span>
+    }
+
+    private String getDbString(String dbPath) {
+<span class="fc" id="L20">        String dbString = null;</span>
+        try {
+<span class="fc" id="L22">        	dbString = this.dbToString(dbPath);</span>
+<span class="fc" id="L23">        }</span>
+<span class="nc" id="L24">        catch (IOException e) {</span>
+<span class="nc" id="L25">            e.printStackTrace();</span>
+        }
+<span class="fc" id="L27">        return dbString.replace(&quot;.&quot;,&quot;&quot;).replace(&quot;\t&quot;,&quot;&quot;).replace(&quot; &quot;, &quot;&quot;);</span>
+    }
+
+    private String dbToString(String path) throws IOException {
+<span class="fc" id="L31">        BufferedReader  buffReader= new BufferedReader(new FileReader(path));</span>
+<span class="fc" id="L32">        StringBuilder stringBuilder = new StringBuilder();</span>
+<span class="fc" id="L33">        String line = buffReader.readLine();</span>
+
+<span class="fc bfc" id="L35" title="All 2 branches covered.">        while (line != null) {</span>
+<span class="fc" id="L36">            stringBuilder.append(line);</span>
+<span class="fc" id="L37">            stringBuilder.append(&quot;\n&quot;);</span>
+<span class="fc" id="L38">            line = buffReader.readLine();</span>
+        }
+        
+<span class="fc" id="L41">        buffReader.close();</span>
+<span class="fc" id="L42">        return stringBuilder.toString();</span>
+    }
+
+
+
+   private void validateDB(List&lt;String&gt; databaseStringList) throws InvalidDBLineException {
+<span class="fc bfc" id="L48" title="All 2 branches covered.">        for (String linea : databaseStringList) {</span>
+<span class="fc bfc" id="L49" title="All 4 branches covered.">            if (!(isValidFact(linea) || isValidRule(linea))) {</span>
+<span class="fc" id="L50">            	 throw new InvalidDBLineException(&quot;&quot;); </span>
+           }
+        }
+<span class="fc" id="L53">    }</span>
+    private Boolean isValidFact(String linea) {
+<span class="fc" id="L55">        String regex = &quot;^[a-zA-Z]*\\([a-zA-Z]+(,[a-zA-Z]*)*\\)&quot;;</span>
+<span class="fc" id="L56">        return linea.matches(regex);</span>
+    }
+
+    private Boolean isValidRule(String linea) {
+<span class="fc" id="L60">        String regex = &quot;^[a-zA-Z]*\\([a-zA-Z]+(,[a-zA-Z]*)*\\):-[a-zA-Z]*\\([a-zA-Z]+(,[a-zA-Z]*)*\\)(,[a-zA-Z]*\\([a-zA-Z]+(,[a-zA-Z]*)*\\))*&quot;;</span>
+<span class="fc" id="L61">        return linea.matches(regex);</span>
+    }
+    
+    private KnowledgeBase getDatabase(List&lt;String&gt; databaseStringList) {
+<span class="fc" id="L65">        KnowledgeBase knowledgeBase = new KnowledgeBase();</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">         for (String line : databaseStringList) {</span>
+<span class="fc bfc" id="L67" title="All 2 branches covered.">             if (!line.contains(&quot;:-&quot;)) {</span>
+<span class="fc" id="L68">                 Fact fact = new Fact(line);</span>
+<span class="fc" id="L69">                 knowledgeBase.addFact(fact);</span>
+<span class="fc" id="L70">             }</span>
+
+             else {
+<span class="fc" id="L73">                 Rule rule = new Rule(line);</span>
+<span class="fc" id="L74">                 knowledgeBase.addRule(rule);</span>
+             }
+         }
+
+<span class="fc" id="L78">         return knowledgeBase;</span>
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.7.9.201702052155</span>7510-TP1-Java (7/11/2017 05:10:59 PM)</div></body></html>
